@@ -44,5 +44,5 @@ disp(['[Nt,Ns,Nw]=[' num2str([Nt,Ns,Nw]) ']'])
 
 Fct1(Y, s, kn);
 
-
+%Fini
 

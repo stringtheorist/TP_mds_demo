@@ -1,0 +1,1 @@
+function Y=ModePropre(kn,s,Nw,Aff)

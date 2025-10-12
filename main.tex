@@ -1,0 +1,174 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx,subfigure}
+%\usepackage{epsfig}
+%\usepackage{psfig}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}
+\usepackage{float}
+\usepackage{color}
+
+\usepackage{listings}
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+\lstset{language=MATLAB, %
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,           % where to put the line-numbers
+numberstyle=\footnotesize,  % the size of the fonts that are used for the line-numbers
+stepnumber=1,           % the step between two line-numbers. If it is 1 each line will be numbered
+numbersep=5pt,          % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,           % show spaces adding particular underscores
+showstringspaces=false,     % underline spaces within strings
+showtabs=false,         % show tabs within strings adding particular underscores
+frame=single,           % adds a frame around the code
+tabsize=2,              % sets default tabsize to 2 spaces
+float=H, 
+captionpos=b,           % sets the caption-position to bottom
+breaklines=true,            % sets automatic line breaking
+breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    float=H, 
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+escapeinside={\%*}{*)}      % if you want to add a comment within your code
+}
+
+
+\newcommand{\dsp}{\displaystyle}
+
+\topmargin -1.5 cm 
+\textwidth 17 cm \textheight 25 cm \oddsidemargin -0.5 cm
+
+\begin{document}
+\thispagestyle{empty}
+%
+\title{Travaux Pratiques / Harpe sympatique}
+
+\author{L. Le Marrec\footnote{IRMAR, 02 23 23 66 86, loic.lemarrec@univ-rennes.fr}}
+
+\maketitle \vspace{-0.7cm}
+
+%------------------------------------------------------------------------
+
+
+
+%%===================%=============================
+\section{Objectif général}
+%%===================%=============================
+Dans le code de référence que vous pouvez trouvez en section \S\ref{sec:CodeDeReference}, un premier code vous a été proposé. L'objectif pour vous est de proposer à partir de cette référence, une nouvelle version du code qui
+\begin{itemize}
+    \item est mieux structurée : c'est à dire avec des fonctions.
+    \item plus efficace : réduction du temps de calcul, réduction des entrées/sorties.
+    \item plus interactif : ou plusieurs options sont proposées en fonction de paramètres identifiés par l'utilisateur.
+    \item propose des extensions ou des applications originales.
+\end{itemize}
+%%===================%=============================
+\subsection{Point de départ}
+%%===================%=============================
+Pour réaliser cet objectif, on va partir d'une version déjà structurée du code... mais vide. Elle est proposée en \S\ref{sec:CodeMAIN}. On voit que ce programme principal fait appel à plusieurs fonctions
+\begin{itemize}
+    \item \verb"ParamInit.m" Comme son l'indique cette fonction a pour vocation de fournir les variables d'entrée de la modélisation. On y retrouve les caractéristiques fondamentale de la structure, des conditions initiales, et de la modélisation.
+    \item \verb"ParamInter.m" Pour estimer les paramètres intermédiares, qui sont souvent celles exploitées dans les calcul. 
+    \item \verb"DomaineModal.m" On introduit les grandeurs modales
+    \item \verb"DomaineSpatial.m" On introduit les grandeurs permettant d'évaluer le domaine spatial.
+    \item \verb"DomaineTemporel.m" On introduit les grandeurs permettant d'évaluer le domaine temporel.
+    \item \verb"ModePropre.m" Pour calculer la fonction $Y_n(S)$. La variable \verb"Aff" peut servir à définir si l'on souhaite avoir un affichage associé ou nom. 
+    \item \verb"AmplitudeModale.m" L'évaluation des amplitudes modales.
+    \item \verb"FctTemporelle.m" Pour définir les fonctions $T_n(t)$ (ou évntuellement $q_n(t)$.
+    \item \verb"FctDeplacement.m" Pour déterminer $u(S,t)$
+    \item \verb"Illustration.m" Cette fonction permet de proposer plusieurs illustrations finales. En fonction de la variable \verb"Type" on peut ainsi choisir le type d'illustration qui est présenté. 
+\end{itemize}
+La première étape est donc tout simplement de \emph{remplir ces fonctions}. Dans bien des cas, il suffit en réalité de faire des copié collé judicieux à partir du code de référence (\S\ref{sec:CodeDeReference}). 
+A chaque étape il est bien sûr nécessaire de s'assurer que le code compile sans erreurs.
+%%===================%=============================
+\subsection{Améliorations modestes}
+%%===================%=============================
+Il y'a donc plusieurs options qui sont proposées et qui sont contrôlées par des variables \verb"Aff", ou \verb"Type". A vous de choisir pertinament les valeurs de ces variables. 
+Par exemple et de manière progressive :
+\begin{enumerate}
+    \item dans \verb"ParamInit" vous pouvez définir \verb"Aff=1" et le mettre en variable de sortie de cette fonction. 
+    \item dans les fonctions qui utilisent \verb"Aff", comme \verb"AmplitudeModale.m", vous pouvez choisir de faire un affichage si \verb"Aff>0" ou non si \verb"Aff=0". Pour cela vous pouvez utiliser des commande \verb"if" ou \verb"switch case" (regardez dans l'aide comment cela fonctionne)
+    \item Une fois que cela fonctionne, vous pouvez définir plusieurs valeurs de \verb"Aff" dans \verb"ParamInit". Par exemple en définissant un vecteur : \verb"Aff=[0,2,4,1]". Ainsi dans chaque fontion qui utilise cette variable, vous pouvez spécifier une ligne spécifique. Bref un truc du genre : 
+\begin{enumerate}
+    \item[]\verb"Y=ModePropre(kn,s,Nw,Aff(1));"    
+    \item[]\verb"[an,bn]=AmplitudeModale(L,el,kn,wn,n,H,Aff(2));"
+    \item[] \verb"T=FctTemporelle(Nw,wn,an,bn,t,Aff(3));"
+\end{enumerate}
+\end{enumerate}
+Un autre point qui rend le code môche est qu'il y a des variables qui pourraient très bien être évaluées en interne. Par exemple celle de type \verb"tmax", \verb"dt", ou encore \verb"Nt" (idem pour les modes ou l'espace). En fait une fois que l'on a évalué \verb"t" dans \verb"DomaineTemporel.m" alors finalement cette variable suffit en effet pas la peine de mettre les détails en entrée des autres fonctions car 
+\verb"dt=t(2)-t(1)", \verb"tmax=max(t)" et \verb"Nt=length(t)". Donc il suffit d'utiliser ce genre de petites lignes de codes dans les fonctions qui utilisent le temps. Cela permet de réduire le transfert d'information : cela permet d'augmenter la lisibilité du code. On obtient d'un côté  \verb"[t]=DomaineTemporel(Per,L)" et de l'autre (pour l'espace) \verb"Y=ModePropre(kn,s,Aff)".\\
+\\
+Il y'a des variables qui ne sont pas utilisées \verb"Def", \verb"Freq", ou très localement comme \verb"Note". Surtout au début. Il serait bien de réorganiser cela pour avoir qu'une seule fonction dans le \verb"MAIN.m" par exemple  \verb"[L,C,H,el,Nw,Aff]=Param" qui utiliserait \emph{à l'intérieur} \verb"[L,R,E,ro,Note,H,el,Nw,Aff]=ParamInit". On pourrait même envisager une variable d'option pour \verb"ParamInit" : en fonction de cette variable, on pourrait choisir plusieurs matériaux par exemple. Au final, on aurait un code de la sorte : \\ 
+au début du \verb"MAIN.m" on trouverait  
+\verb"[L,C,H,el,Nw,Aff]=Param(TypeCorde)" et dans cette fonction on utiliserait \\ \verb"[L,R,E,ro,Note,H,el,Nw,Aff]=ParamInit(TypeCorde)" qui sortirait des propriétés différentes en fonction de la variable \verb"TypeCorde" en utilisant judicieusement \verb"swith case" ou \verb"if". 
+
+%%===================%=============================
+\section{Pour aller plus loin}
+%%===================%=============================
+
+%%===================%=============================
+\subsection{Quelques mises en applications}
+%%===================%=============================
+On peut exploiter les idées proposées en fin de code. Il est facile de trouver l'aide pour réaliser un film, une video, ou d'enregistrer et d'écouter la dynamique présente en un point $S$ de la corde. Pour cela, l'aide fournie par Matlab ou sur internet est suffisament riche. 
+
+%%===================%=============================
+\subsection{Tenir compte d'autres conditions aux limites}
+%%===================%=============================
+Pour des conditons aux limites de type Dirichlet-Neuman $u(0,t)=0 \ \& \ u'(L,t)=0$. Le polycopié donne également des solutions très faciles. Vous pouvez les intégrer ou mieux les mettre en choix au début de votre code. 
+
+%%===================%=============================
+\subsection{Conditons aux limites avec un ressort ou une masse}
+%%===================%=============================
+Nous avons vu cela en TD et un code a été fourni. Il est donc possible maintenant d'intégrer cela comme vous l'avez fait pour ce problème plus facile. Cela nécessite néanmoins de créer de nouvelles fonciton et de bien se familiariser avec la méthode de travail et de programmation. 
+
+%%===================%=============================
+\subsection{Changer les conditions initiales}
+%%===================%=============================
+Nous avons vu d'autres conditions initiales et les solutions $a_n\ \&\  b_n$ associées. Cela peut donc aussi assez facilement être intégré à votre code. 
+
+
+
+
+%%===================%=============================
+\subsection{Valorisation du travail}
+%%===================%=============================
+Vous disposez du code source à la fois matlab mais également du fichier \LaTeX \ de ce document. Vous pouvez donc compléter et améliorer ce document pour faire un compte rendu de votre TP. Vous pouvez également choisir de réaliser un Beamer pour valoriser ce travail. La encore les sources et informations sont très nombreuses sur le web. 
+
+
+
+
+
+%%===================%=============================
+\section{Codes}
+%%===================%=============================
+%%===================%=============================
+\subsection{Code de référence}\label{sec:CodeDeReference}
+%%===================%=============================
+\lstinputlisting{MAINExempleAssezFacileCordeAppuiSimple.m}
+%%===================%=============================
+\subsection{Code MAIN structuré}\label{sec:CodeMAIN}
+%%===================%=============================
+\lstinputlisting{MAIN.m}
+%%===================%=============================
+
+
+
+
+
+
+% ----------------------------------------------------------------
+\end{document}
+% ----------------------------------------------------------------

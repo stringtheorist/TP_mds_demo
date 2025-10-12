@@ -67,7 +67,7 @@ figure(2);
 plot(Ka,F,'LineWidth',2)
 xlabel('Ka [~]');ylabel('F')
 set(gca,'FontSize',24)
-
+% 
 %% ========================================================================
 %% RECHERCHE DES RACINES DE L'EQUATION TRANSCENDENTALE ====================
 % On cherche d'abord numériquement une bonne approximation de ces racines

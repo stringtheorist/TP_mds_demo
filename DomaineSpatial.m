@@ -1,0 +1,1 @@
+function [ds,s,Ns]=DomaineSpatial(Lamb,L)

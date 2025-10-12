@@ -1,0 +1,1 @@
+function [L,R,E,ro,Note,H,el,Nw,Aff]=ParamInit

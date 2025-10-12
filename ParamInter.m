@@ -1,0 +1,1 @@
+function [A,C,N0,Def]=ParamInter(R,L,ro,E,Note)

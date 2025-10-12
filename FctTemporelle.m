@@ -1,0 +1,1 @@
+function T=FctTemporelle(Nw,wn,an,bn,t,Aff)
